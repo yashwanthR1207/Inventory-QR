@@ -28,6 +28,8 @@ export const Auth: React.FC = () => {
     } catch (error: any) {
       if (error.message.includes('Invalid login credentials')) {
         toast.error('Invalid Employee ID or Password');
+      } else if (error.message.includes('rate limit') || error.message.includes('email rate limit exceeded')) {
+        toast.error('Rate limit reached! You must turn off "Confirm Email" in your Supabase dashboard.');
       } else {
         toast.error(error.message || 'Authentication failed');
       }
