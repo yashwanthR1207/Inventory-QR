@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import type { Product, InventoryTransaction } from '../types/database.types';
 import toast from 'react-hot-toast';
@@ -8,6 +8,7 @@ import { Edit2, LogIn, LogOut, Move, History } from 'lucide-react';
 
 export const ProductDetail: React.FC = () => {
   const { qrId } = useParams<{ qrId: string }>();
+  const navigate = useNavigate();
   
   
   const [product, setProduct] = useState<Product | null>(null);
