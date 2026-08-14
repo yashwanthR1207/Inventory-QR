@@ -4,13 +4,16 @@ import toast from 'react-hot-toast';
 
 export const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const [employeeId, setEmployeeId] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    // Map Employee ID to a dummy email for Supabase Auth to work seamlessly
+    const email = `${employeeId.trim().toLowerCase()}@company.internal`;
 
     try {
       if (isLogin) {
@@ -23,7 +26,11 @@ export const Auth: React.FC = () => {
         toast.success('Signed up successfully! You can now log in.');
       }
     } catch (error: any) {
-      toast.error(error.message || 'Authentication failed');
+      if (error.message.includes('Invalid login credentials')) {
+        toast.error('Invalid Employee ID or Password');
+      } else {
+        toast.error(error.message || 'Authentication failed');
+      }
     } finally {
       setLoading(false);
     }
@@ -33,16 +40,17 @@ export const Auth: React.FC = () => {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: 'var(--bg-color)' }}>
       <div className="card" style={{ width: '100%', maxWidth: '400px', padding: '2rem' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          {isLogin ? 'Welcome Back' : 'Create an Account'}
+          {isLogin ? 'Employee Portal' : 'Register Employee'}
         </h2>
         <form onSubmit={handleAuth}>
           <div className="form-group">
-            <label className="form-label">Email</label>
+            <label className="form-label">Employee ID</label>
             <input 
-              type="email" 
+              type="text" 
               className="form-control" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              value={employeeId} 
+              onChange={(e) => setEmployeeId(e.target.value)} 
+              placeholder="e.g. EMP123"
               required 
             />
           </div>
