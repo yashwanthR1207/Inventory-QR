@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Package, AlertTriangle, AlertCircle, Clock, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import toast from 'react-hot-toast';
 
 export const Dashboard: React.FC = () => {
   const [stats, setStats] = useState({
@@ -90,12 +91,36 @@ export const Dashboard: React.FC = () => {
      await supabase.from('products').update({ status }).eq('id', id);
   };
 
+  const handleClearData = async () => {
+    if (window.confirm("WARNING: This will permanently delete ALL products and transactions. This cannot be undone. Are you absolutely sure?")) {
+      try {
+        setLoading(true);
+        // Using neq on id to match all rows
+        const { error } = await supabase
+          .from('products')
+          .delete()
+          .neq('id', '00000000-0000-0000-0000-000000000000');
+          
+        if (error) throw error;
+        
+        toast.success("All data has been cleared.");
+        fetchDashboardData();
+      } catch (error: any) {
+        toast.error(error.message || "Failed to clear data.");
+        setLoading(false);
+      }
+    }
+  };
+
   if (loading) return <div>Loading dashboard...</div>;
 
   return (
     <div>
-      <div className="page-title">
+      <div className="page-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>Inventory Dashboard</h1>
+        <button className="btn btn-secondary" style={{ backgroundColor: 'var(--danger-color)', color: 'white', border: 'none' }} onClick={handleClearData}>
+          Clear All Data
+        </button>
       </div>
 
       <div className="stat-grid">
