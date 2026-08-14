@@ -139,7 +139,7 @@ export const ProductCreate: React.FC = () => {
         </div>
         <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
           <h2 className="mb-4">QR ID: {generatedQR}</h2>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+          <div className="qr-display">
             <QRCodeSVG 
               id="product-qrcode" 
               value={`${window.location.origin}/product/${generatedQR}`} 

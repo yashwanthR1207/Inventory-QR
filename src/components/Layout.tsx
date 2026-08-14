@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient';
 import { LogOut } from 'lucide-react';
 
 export const Layout: React.FC = () => {
-  const [employeeId, setEmployeeId] = useState<string>('Loading...');
+  const [employeeId, setEmployeeId] = useState<string>('...');
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,14 +27,15 @@ export const Layout: React.FC = () => {
     <div className="app-container">
       <Sidebar />
       <main className="main-content">
-        <header className="top-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 2rem', backgroundColor: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)' }}>
-          <div className="text-secondary font-medium">QR Inventory System</div>
-          <div className="user-profile" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <div className="badge badge-active" style={{ fontSize: '0.85rem' }}>{employeeId}</div>
+        <header className="top-header">
+          <span className="header-title">StockQR — Inventory Management</span>
+          <div className="user-profile">
+            <div className="user-avatar">{employeeId.slice(0, 2)}</div>
+            <span className="badge badge-active" style={{ fontSize: '0.78rem' }}>{employeeId}</span>
             <button 
               onClick={handleLogout}
               className="btn btn-secondary" 
-              style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+              style={{ padding: '0.4rem 0.75rem', fontSize: '0.8rem' }}
             >
               <LogOut size={14} /> Logout
             </button>

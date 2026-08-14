@@ -29,7 +29,7 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (loading) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
+  if (loading) return <div className="loading-container"><div className="loading-spinner"></div></div>;
 
   if (!session) {
     return (

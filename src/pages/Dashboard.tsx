@@ -112,41 +112,41 @@ export const Dashboard: React.FC = () => {
     }
   };
 
-  if (loading) return <div>Loading dashboard...</div>;
+  if (loading) return <div className="loading-container"><div className="loading-spinner"></div> Loading dashboard...</div>;
 
   return (
     <div>
-      <div className="page-title" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="page-title">
         <h1>Inventory Dashboard</h1>
-        <button className="btn btn-secondary" style={{ backgroundColor: 'var(--danger-color)', color: 'white', border: 'none' }} onClick={handleClearData}>
+        <button className="btn btn-danger" onClick={handleClearData}>
           Clear All Data
         </button>
       </div>
 
       <div className="stat-grid">
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--info-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--info-bg)', color: 'var(--info-color)' }}>
-            <Package size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-blue">
+            <Package size={22} />
           </div>
           <div className="stat-content">
-            <h3>Total Products/Batches</h3>
+            <h3>Total Products</h3>
             <p>{stats.totalProducts}</p>
           </div>
         </div>
         
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--success-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success-color)' }}>
-            <CheckCircle size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-green">
+            <CheckCircle size={22} />
           </div>
           <div className="stat-content">
-            <h3>Total Stock Items</h3>
+            <h3>Total Stock</h3>
             <p>{stats.totalStock}</p>
           </div>
         </div>
 
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--warning-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--warning-bg)', color: 'var(--warning-color)' }}>
-            <AlertTriangle size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-yellow">
+            <AlertTriangle size={22} />
           </div>
           <div className="stat-content">
             <h3>Low Stock</h3>
@@ -154,9 +154,9 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--danger-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-color)' }}>
-            <AlertCircle size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-red">
+            <AlertCircle size={22} />
           </div>
           <div className="stat-content">
             <h3>Out of Stock</h3>
@@ -164,19 +164,19 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--warning-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--warning-bg)', color: 'var(--warning-color)' }}>
-            <Clock size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-yellow">
+            <Clock size={22} />
           </div>
           <div className="stat-content">
-            <h3>Expiring Soon (30 days)</h3>
+            <h3>Expiring Soon</h3>
             <p>{stats.expiringSoon}</p>
           </div>
         </div>
 
-        <div className="stat-card" style={{ borderLeft: '4px solid var(--danger-color)' }}>
-          <div className="stat-icon" style={{ backgroundColor: 'var(--danger-bg)', color: 'var(--danger-color)' }}>
-            <AlertCircle size={24} />
+        <div className="stat-card">
+          <div className="stat-icon icon-red">
+            <AlertCircle size={22} />
           </div>
           <div className="stat-content">
             <h3>Expired</h3>
@@ -200,7 +200,7 @@ export const Dashboard: React.FC = () => {
             </thead>
             <tbody>
               {recentTransactions.length === 0 ? (
-                <tr><td colSpan={5}>No transactions found.</td></tr>
+                <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-tertiary)' }}>No transactions found.</td></tr>
               ) : (
                 recentTransactions.map(tx => (
                   <tr key={tx.id}>

@@ -12,30 +12,32 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="sidebar" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <aside className="sidebar">
       <div className="sidebar-header">
-        <QrCode size={24} className="text-accent" style={{ color: 'var(--accent-color)' }} />
+        <QrCode size={22} className="text-accent" />
         <span>StockQR</span>
       </div>
-      <nav className="sidebar-nav" style={{ flexGrow: 1 }}>
+      <nav className="sidebar-nav">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+            end={item.to === '/'}
           >
             {item.icon}
             <span>{item.label}</span>
           </NavLink>
         ))}
       </nav>
-      <div style={{ padding: '1rem' }}>
+      <div className="sidebar-divider" />
+      <div className="sidebar-footer">
         <button 
           className="btn btn-secondary w-full" 
-          style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}
+          style={{ justifyContent: 'center' }}
           onClick={() => supabase.auth.signOut()}
         >
-          <LogOut size={16} /> Logout
+          <LogOut size={16} /> <span>Logout</span>
         </button>
       </div>
     </aside>
