@@ -83,12 +83,12 @@ CREATE POLICY "Allow all authenticated users to read transactions" ON inventory_
 CREATE POLICY "Allow all authenticated users to insert transactions" ON inventory_transactions FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
 -- For local development/testing without strict auth, we might enable public access
--- Uncomment below for testing without auth
-/*
 CREATE POLICY "Allow public read products" ON products FOR SELECT USING (true);
 CREATE POLICY "Allow public insert products" ON products FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public update products" ON products FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete products" ON products FOR DELETE USING (true);
 
 CREATE POLICY "Allow public read transactions" ON inventory_transactions FOR SELECT USING (true);
 CREATE POLICY "Allow public insert transactions" ON inventory_transactions FOR INSERT WITH CHECK (true);
-*/
+CREATE POLICY "Allow public update transactions" ON inventory_transactions FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete transactions" ON inventory_transactions FOR DELETE USING (true);

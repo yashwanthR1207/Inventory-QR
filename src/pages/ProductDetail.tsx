@@ -62,13 +62,23 @@ export const ProductDetail: React.FC = () => {
     if (!product) return;
     
     try {
-      let newStock = product.quantity;
-      
       if (type === 'SALE') {
-        if (actionQuantity <= 0) throw new Error('Sale quantity must be greater than 0');
-        if (actionQuantity > product.quantity) throw new Error('Sale quantity exceeds available stock');
-        newStock = product.quantity - actionQuantity;
-      } else if (type === 'STOCK_IN') {
+        // User requested: "sail the product must be deleted"
+        const { error: deleteError } = await supabase
+          .from('products')
+          .delete()
+          .eq('id', product.id);
+
+        if (deleteError) throw deleteError;
+        
+        toast.success('Product sold and deleted successfully!');
+        setActiveModal(null);
+        navigate('/'); // Redirect to dashboard since it's deleted
+        return;
+      }
+
+      let newStock = product.quantity;
+      if (type === 'STOCK_IN') {
         if (actionQuantity <= 0) throw new Error('Stock-in quantity must be greater than 0');
         newStock = product.quantity + actionQuantity;
       }
@@ -233,12 +243,15 @@ export const ProductDetail: React.FC = () => {
               <button onClick={() => {setActiveModal(null); resetModalState();}} className="text-secondary text-xl">&times;</button>
             </div>
             
-            {(activeModal === 'SALE' || activeModal === 'STOCK_IN') && (
+            {activeModal === 'STOCK_IN' && (
               <div className="form-group">
                 <label className="form-label">Quantity</label>
                 <input type="number" min="1" className="form-control" value={actionQuantity} onChange={e => setActionQuantity(Number(e.target.value))} />
-                {activeModal === 'SALE' && <small className="text-secondary">Available: {product.quantity}</small>}
               </div>
+            )}
+            
+            {activeModal === 'SALE' && (
+              <p className="mb-4 text-danger">Warning: Recording a sale will permanently delete this product and its history from the database.</p>
             )}
             
             {activeModal === 'SHIFT' && (
